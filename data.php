@@ -5,17 +5,18 @@
 	//ei ole sisseloginud, suunan login lehele
 	if(!isset ($_SESSION["userId"])) {
 		header("Location: login.php");
+		exit();
 	}
 	
 	
-	//kas kasutaja tahab v‰lja logida
+	//kas kasutaja tahab v√§lja logida
 	// kas aadressireal on logout olemas
 	if (isset($_GET["logout"])) {
 		
 		session_destroy();
 		
 		header("Location: login.php");
-		
+		exit();
 	}
 	
 	if(isset ($_POST["forumPost"])&&
@@ -34,7 +35,7 @@
 <h1>Data</h1>
 <p>
 	Tere tulemast <?=$_SESSION["userEmail"];?>!
-	<a href="?logout=1">Logi v‰lja</a>
+	<a href="?logout=1">Logi v√§lja</a>
 </p>
 
 <h2>Postitused</h2>
