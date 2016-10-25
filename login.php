@@ -11,10 +11,45 @@
 	//echo "<br>";
 	//var_dump($_POST);
 		
+	$signupPassword = "";	
 	$signupEmailError = "";
 	$signupEmail = "";
-	$signupTelephoneError = "";
+	$signupsignupTelephone = "";
+	$signupsignupTelephoneError = "";
+	$signupsignupUsernameError = "";
+	$signupsignupUsername = "";
+	$loginEmailError = "";
+	$loginPasswordError= "";
+	$loginEmail= "";
+	$loginPassword= "";
+	$signupUsername = "";
+	$signupTelephone = "";
 	$signupUsernameError = "";
+	$signupTelephoneError = "";
+	
+	if (isset($_POST["loginPassword"])) {
+		
+		if (empty($_POST["loginPassword"])) {
+			
+			$loginPasswordError = "Palun sisestage parool";
+			
+		}
+		
+	}
+	
+	if (isset ($_POST["loginEmail"])) {
+		
+		if (empty($_POST["loginEmail"])) {
+			
+			$loginEmailError = "Palun sisestage email";
+			
+		} else {
+			
+			$loginEmail = ($_POST["loginEmail"]);
+			
+		}
+		
+	}
 	
 	//kas on üldse olemas
 	if (isset ($_POST["signupEmail"])) {
@@ -55,6 +90,11 @@
 				
 				$signupPasswordError = "Parool peab olema vähemalt 8 tm pikk";
 				
+			} else {
+				
+				//$signupUsername = cleanInput($_POST["signupUsername"]);
+				$signupUsername = $_POST["signupUsername"];
+				
 			}
 			
 		}
@@ -66,6 +106,10 @@
 		if (empty ($_POST["signupTelephone"])) {
 			
 			$signupTelephoneError = "See väli on kohustuslik";
+			
+		} else {
+			
+			$signupTelephone = $_POST["signupTelephone"];
 			
 		}
 		
@@ -79,9 +123,9 @@
 			
 		} else {
 			
-			if (strlen ($_POST["signupPassword"]) < 6) {
+			if (strlen ($_POST["signupUsername"]) > 12) {
 				
-				$signupUsernameError = "Kasutajanimi peab olema vähemalt 6 tm pikk";
+				 $signupUsernameError = "Kasutajanimi peab olema lühem kui 12 tm";
 				
 			}
 			
@@ -91,37 +135,47 @@
 	
 	if ( isset($_POST["signupEmail"]) &&
 		 isset($_POST["signupPassword"]) &&
-		 $signupEmailError == "" && 
+		 isset($_POST["signupUsername"]) &&
+		 isset($_POST["signupTelephone"]) &&
+		 empty($signupUsernameError) &&
+		 empty($signupTelephoneError) &&
+		 empty($signupEmailError) &&
 		 empty($signupPasswordError)
 	   ) {
 		
 		// ühtegi viga ei ole, kõik vajalik olemas
 		echo "salvestan...<br>";
 		echo "email ".$signupEmail."<br>";
-		echo "parool ".$_POST["signupPassword"]."<br>";
 		
 		$password = hash("sha512", $_POST["signupPassword"]);
 		
 		echo "räsi ".$password."<br>";
 		
+		//$signupEmail = cleanInput($signupEmail);
+		//$password = cleanInput($password);
+		
 		
 		
 		//kutsun funktsiooni, et salvestada
-		signup($signupEmail, $password);
+		signup($signupEmail, $password, $signupUsername, $signupTelephone);
 		
 	}	
 	
-	
 	$notice = "";
-	// mõlemad login vormi väljad on täidetud
-	if (	isset($_POST["loginEmail"]) && 
-			isset($_POST["loginPassword"]) && 
-			!empty($_POST["loginEmail"]) && 
-			!empty($_POST["loginPassword"]) 
-	) {
+	if (isset($_POST["loginEmail"]) &&
+		isset($_POST["loginPassword"]) &&
+		!empty($_POST["loginEmail"]) &&
+		!empty($_POST["loginPassword"])
+	){
+		
+		//$_POST["loginEmail"] = cleanInput($_POST["loginEmail"]);
+		//$_POST["loginEmail"] = cleanInput($_POST["loginPassword"]);
+		
+		
 		$notice = login($_POST["loginEmail"], $_POST["loginPassword"]);
 		
 	}
+	
 	
 ?>
 <!DOCTYPE html>
@@ -136,12 +190,12 @@
 		<form method="POST">
 			
 			<label>E-post</label><br>
-			<input name="loginEmail" type="email">
+			<input name="loginEmail" type="email" value="<?=$loginEmail;?>"> <?php echo $loginEmailError; ?>
 			
 			<br><br>
 			
 			<label>Parool</label><br>
-			<input name="loginPassword" type="password">
+			<input name="loginPassword" type="password"> <?php echo $loginPasswordError; ?>
 						
 			<br><br>
 			

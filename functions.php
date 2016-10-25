@@ -11,7 +11,7 @@
 	
 	//var_dump($GLOBALS);
 	
-	function signup($email, $password) {
+	function signup($signupEmail, $password, $signupUsername, $signupTelephone) {
 		
 		$mysqli = new mysqli(
 		
@@ -21,10 +21,10 @@
 		$GLOBALS["database"]
 		
 		);
-		$stmt = $mysqli->prepare("INSERT INTO user_sample (email, password) VALUES (?, ?)");
+		$stmt = $mysqli->prepare("INSERT INTO mvp_users (email, password, username, telephone) VALUES (?, ?, ?, ?)");
 		echo $mysqli->error;
 		
-		$stmt->bind_param("ss", $email, $password );
+		$stmt->bind_param("sssi", $signupEmail, $password,  $signupUsername, $signupTelephone);
 		if ( $stmt->execute() ) {
 			echo "salvestamine õnnestus";	
 		} else {	
@@ -43,7 +43,7 @@
 		$stmt = $mysqli->prepare("
 		
 			SELECT id, email, password, created
-			FROM user_sample
+			FROM mvp_users
 			WHERE email = ?
 		
 		");
@@ -126,5 +126,11 @@
 		}
 		
 		return $result;
+		
+	}
+	
+	function cleanInput() {
+		
+		
 		
 	}

@@ -42,7 +42,7 @@
 <form method="POST">
 
 	<label>Postitus</label><br>
-	<input name="forumPost" type="text">
+	<textarea name="forumPost" rows="5" cols="40"></textarea>
 
 	<br><br>
 
