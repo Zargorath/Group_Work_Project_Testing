@@ -1,136 +1,28 @@
 <?php 
-	// functions.php
+
 	require("../../config.php");
 	
-	// et saab kasutada $_SESSION muutujaid
-	// kõigis failides mis on selle failiga seotud
-	session_start();
-	
-	
 	$database = "if16_kliiva";
-	
-	//var_dump($GLOBALS);
-	
-	function signup($signupEmail, $password, $signupUsername, $signupTelephone) {
-		
-		$mysqli = new mysqli(
-		
-		$GLOBALS["serverHost"], 
-		$GLOBALS["serverUsername"],  
-		$GLOBALS["serverPassword"],  
-		$GLOBALS["database"]
-		
-		);
-		$stmt = $mysqli->prepare("INSERT INTO mvp_users (email, password, username, telephone) VALUES (?, ?, ?, ?)");
-		echo $mysqli->error;
-		
-		$stmt->bind_param("sssi", $signupEmail, $password,  $signupUsername, $signupTelephone);
-		if ( $stmt->execute() ) {
-			echo "salvestamine õnnestus";	
-		} else {	
-			echo "ERROR ".$stmt->error;
-		}
-		
-	}
-	
-	
-	function login($email, $password) {
-		
-		$notice = "";
-		
-		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"],  $GLOBALS["serverPassword"],  $GLOBALS["database"]);
-		
-		$stmt = $mysqli->prepare("
-		
-			SELECT id, email, password, created
-			FROM mvp_users
-			WHERE email = ?
-		
-		");
-		// asendan ?
-		$stmt->bind_param("s", $email);
-		
-		// määran muutujad reale mis kätte saan
-		$stmt->bind_result($id, $emailFromDb, $passwordFromDb, $created);
-		
-		$stmt->execute();
-		
-		// ainult SLECTI'i puhul
-		if ($stmt->fetch()) {
-			
-			// vähemalt üks rida tuli
-			// kasutaja sisselogimise parool räsiks
-			$hash = hash("sha512", $password);
-			if ($hash == $passwordFromDb) {
-				// õnnestus 
-				echo "Kasutaja ".$id." logis sisse";
-				
-				$_SESSION["userId"] = $id;
-				$_SESSION["userEmail"] = $emailFromDb;
-				
-				header("Location: data.php");
-				exit();
-				
-			} else {
-				$notice = "Vale parool!";
-			}
-			
-		} else {
-			// ei leitud ühtegi rida
-			$notice = "Sellist emaili ei ole!";
-		}
-		
-		return $notice;
-	}
-	
-	function saveFPost($forumPost) {
+
+
+	function SaveReservation($reg_nr, $veichle_type, $car_brand, $car_model, $telephone_nr) {
 		
 		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
-		
-		$stmt = $mysqli->prepare("INSERT INTO forumPosts (forumPost) VALUES (?)");
+		$stmt = $mysqli->prepare("INSERT INTO Reservation_Data (Registration_Nr, Veichle_Type, Car_Brand, Car_Model, Telephone_Nr) VALUES (?, ?, ?, ?, ?) ");
 		echo $mysqli->error;
 		
-		$stmt->bind_param("s", $forumPost);
-		
-		if ( $stmt->execute() ) {
+		$stmt->bind_param("ssssi", $reg_nr, $veichle_type, $car_brand, $car_model, $telephone_nr);
+		if($stmt->execute()) {
 			
 			echo "Salvestamine õnnestus";
 			
 		} else {
 			
-			echo "Error ".$stmt->error;
+			echo "Ilmnes viga ".$stmt->error;
 			
 		}
 		
 	}
+
 	
-	function getAllFPosts() {
-		
-		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
-		
-		$stmt = $mysqli->prepare("SELECT id, forumPost FROM forumPosts");
-		
-		$stmt->bind_result($id, $forumPost);
-		$stmt->execute();
-		
-		$result = array();
-		
-		while ($stmt->fetch()) {
-			
-			$object = new StdClass();
-			$object->id = $id;
-			$object->forumPost = $forumPost;
-			
-			array_push($result, $object);
-			
-		}
-		
-		return $result;
-		
-	}
-	
-	function cleanInput() {
-		
-		
-		
-	}
+?>
