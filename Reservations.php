@@ -107,22 +107,22 @@
 
 ?>
 
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>Broneerimise Leht</title>
-	</head>
-	<body>
+<?php require("Header.php"); ?>
 
+
+<div class="container">
+	<div class="row">
 		
-		<h1>Andmed</h1>
+		<div class="col-md-4 col-md-offset-3 col-sm-6">
+		
+		<h1>Andmed</h1><br>
 		
 		<form method="POST">
 			
 			<label>Registreerimisnumber</label><br>
-			<input name="reg_nr" type="text"> <?php echo $reg_nr_error; ?>
-			
-			<br><br>
+			<div class="form-group">
+				<input class="form-control" name="reg_nr" type="text"> <?php echo $reg_nr_error; ?>
+			</div>
 			
 			<?php if ($veichle_type == "Sõiduauto") { ?>
                 <input type="radio" name="veichle_type" value="Sõiduauto" checked > Sõiduauto<br>
@@ -142,23 +142,25 @@
                 <input type="radio" name="veichle_type" value="Kaubik"> Kaubik<br>
             <?php } ?><br>
 			
-			
 			<label>Mark</label><br>
-			<input name="car_brand" type="text"> <?php echo $car_brand_error; ?>
-			
-			<br><br>
+			<div class="form-group">
+				<input class="form-control" name="car_brand" type="text"> <?php echo $car_brand_error; ?>
+			</div>
+
 			
 			<label>Mudel</label><br>
-			<input name="car_model" type="text"> <?php echo $car_model_error; ?>
-						
-			<br><br>
+			<div class="form-group">
+				<input class="form-control" name="car_model" type="text"> <?php echo $car_model_error; ?>
+			</div>
+			
 			
 			<label>Telefon</label><br>
-			<input name="telephone_nr" type="tel"> <?php echo $telephone_nr_error; ?>
+			<div class="form-group">
+				<input class="form-control" name="telephone_nr" type="tel"> <?php echo $telephone_nr_error; ?>
+			</div>
+
 			
-			<br><br>
-			
-			<table>
+			<table class="table-bordered">
 			<?php 
 							 
 			 $limit = 7;
@@ -247,7 +249,7 @@
 			
 			<br><br>
 			
-			<input type="submit" value="Broneeri">
+			<input type="submit" value="Broneeri" class="btn btn-success">
 		
 		</form>
 
