@@ -1,7 +1,7 @@
 <?php
 
 	require("../../config.php");
-	require("functions.php");
+	require("Functions.php");
 	
 	$veichle_type = "";
 	$car_brand = "";
@@ -23,7 +23,7 @@
 			
 		} else {
 			
-			$veichle_type = $_POST["veichle_type"];
+			$veichle_type = CleanInput($_POST["veichle_type"]);
 			
 		}
 		
@@ -38,7 +38,7 @@
 			
 		} else {
 			
-			$reg_nr = $_POST["reg_nr"];
+			$reg_nr = CleanInput($_POST["reg_nr"]);
 			
 		}
 		
@@ -52,7 +52,7 @@
 			
 		} else {
 			
-			$car_brand = $_POST["car_brand"];
+			$car_brand = CleanInput($_POST["car_brand"]);
 			
 		}
 		
@@ -67,7 +67,7 @@
 			
 		} else {
 			
-			$car_model = $_POST["car_model"];
+			$car_model = CleanInput($_POST["car_model"]);
 			
 		}
 		
@@ -77,7 +77,7 @@
 		
 		if(empty($_POST["telephone_nr"])) {
 			
-			$telephone_nr = "Palun sisestage oma telefoni nr";
+			$telephone_nr_error = "Palun sisestage oma telefoni nr";
 			
 		} else {
 			
@@ -120,7 +120,7 @@
 		<form method="POST">
 			
 			<label>Registreerimisnumber</label><br>
-			<input name="reg_nr" type="text"> 
+			<input name="reg_nr" type="text"> <?php echo $reg_nr_error; ?>
 			
 			<br><br>
 			
@@ -144,17 +144,17 @@
 			
 			
 			<label>Mark</label><br>
-			<input name="car_brand" type="text"> 
+			<input name="car_brand" type="text"> <?php echo $car_brand_error; ?>
 			
 			<br><br>
 			
 			<label>Mudel</label><br>
-			<input name="car_model" type="text">
+			<input name="car_model" type="text"> <?php echo $car_model_error; ?>
 						
 			<br><br>
 			
 			<label>Telefon</label><br>
-			<input name="telephone_nr" type="tel">
+			<input name="telephone_nr" type="tel"> <?php echo $telephone_nr_error; ?>
 			
 			<br><br>
 			
