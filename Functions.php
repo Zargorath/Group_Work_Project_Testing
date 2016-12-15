@@ -33,6 +33,33 @@
 		return $input;
 		
 	}
+	
+	
+	function UserSignup($signupUsername, $password, $signupEmail) {
+		
+		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
+		$stmt = $mysqli->prepare("INSERT INTO Feedback_Users (Username, Email, Password) VALUES (?,?,?)");
+		echo $mysqli->error;
+		
+		$stmt->bind_param("sss", $signupUsername, $password, $signupEmail);
+		if($stmt->execute()) {
+			
+			echo "Salvestamine õnnestus";
+			
+		} else {
+			
+			echo "Ilmnes viga ".$stmt->error;
+			
+		}
+		
+	}
+	
+	function UserLogin($Username, $password) {
+		
+		$mysqli = new mysqli($GLOBALS["serverHost"], $GLOBALS["serverUsername"], $GLOBALS["serverPassword"], $GLOBALS["database"]);
+		$stmt = $mysqli->prepare("SELECT ")
+		
+	}
 
 	
 ?>
